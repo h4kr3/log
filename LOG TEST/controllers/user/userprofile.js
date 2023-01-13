@@ -3,7 +3,8 @@ const userHelpers = require('../../models/user/userprofile')
 module.exports = {
     userProfile: async (req, res) => {
         let user = await userHelpers.getUserDetails(req.session.user._id)
-        res.render('user/user-profile', { usersi: true, user })
+        let address = await userHelpers.getUserAddress(req.session.user._id)
+        res.render('user/user-profile', { usersi: true, user,address})
     },
     addProfileDetails: (req, res) => {
         userHelpers.addProfileDetails(req.body).then((response) => {
@@ -37,5 +38,25 @@ module.exports = {
             })
         }
     },
+    addSecondaryAddress:(req,res)=>{
+       userHelpers.addSecondaryAddress(req.body).then(()=>{
+        res.json({status:true})
+       })
+    },
+    addAditionalAddress:(req,res)=>{
+        userHelpers.addAditionalAddress(req.body).then(()=>{
+            res.json({status:true})
+        })
+    },
+    makeDefaultAddress:(req,res)=>{
+        userHelpers.makeDefaultAddress(req.params.id).then(()=>{
+            res.json({status:true})
+        })
+    },
+    deleteAddress:(req,res)=>{
+        userHelpers.deleteAddress(req.params.id,req.session.user._id).then(()=>{
+            res.json({status:true})
+        })
+    }
 
 }

@@ -30,7 +30,7 @@ module.exports = {
     deleteProduct: (req, res) => {
         let productId = req.params.id
         productHelper.deleteproduct(productId).then((response) => {
-            res.redirect('/admin/products')
+            res.json({status:true})
         })
     },
     addProduct: async (req, res) => {
@@ -68,6 +68,7 @@ module.exports = {
         res.render('admin/edit-product', { product, category, admin: true })
     },
     postAdminEditProduct: async (req, res) => {
+        
         const cloudinaryImageUploadMethod = (file) => {
             return new Promise((resolve) => {
                 cloudinary.uploader.upload(file, (err, res) => {
@@ -156,7 +157,7 @@ module.exports = {
     deleteCat: (req, res) => {
         let categoryid = req.params.id
         productHelper.deleteCategory(categoryid).then((response) => {
-            res.redirect('/admin/category')
+            res.json({status:true})
         })
     }
 

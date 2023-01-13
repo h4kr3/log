@@ -1,6 +1,7 @@
 
 var adminHelper = require('../../models/admin/signin');
 var dashBoard = require('../../models/admin/dashboard')
+var banner = require('../../models/admin/banner');
 
 
 module.exports = {
@@ -22,7 +23,9 @@ module.exports = {
         if (req.session.adminLoggedIn) {
             let totalAmount = await dashBoard.getTotalAmount()
             let data = await dashBoard.dashBoard()
-            res.render('admin/admin-land', { admin: true, totalAmount, data })
+            let bannerData = banner.getImageBanner()
+            console.log(bannerData);
+            res.render('admin/admin-land', { admin: true, totalAmount, data,bannerData})
         }
     }
 }

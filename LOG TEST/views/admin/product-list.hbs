@@ -37,8 +37,8 @@
           <td class="text-uppercase text-center"><a href="/admin/edit-product/{{this._id}}" class="btn btn-success">Edit</a>
           </td>
           <td class="text-uppercase text-center">
-            <a href="/admin/delete-product/{{this._id}}" class="btn btn-danger ms-5 text-uppercase"
-              onclick="return confirm('Are you want to delete {{this.name}}')">Delete</a>
+            <a class="btn btn-danger ms-5 text-uppercase"
+              onclick="return confirm('Are you sure you want to delete {{this.name}}') && deleteProd('{{this._id}}')">Delete</a>
           </td>
         </tr>
         {{/each}}

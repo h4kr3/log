@@ -6,7 +6,6 @@ $("#checkout-form").submit((e)=>{
         data:$('#checkout-form').serialize(),
         success:((res)=>{
             if(res.cod){
-                swal("Item Ordered","You Can See Your Order at Orders")
             swal({
                 title: 'Item Placed Successfully',
                 text:'Click Ok To See Your Orders',

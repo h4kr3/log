@@ -1,4 +1,5 @@
 const productHelper = require('../../models/user/product')
+const userHelper = require('../../models/user/userprofile')
 
 module.exports = {
   productList: async (req, res) => {
@@ -60,10 +61,11 @@ module.exports = {
     let total = await productHelper.getTotalAmount(req.session.user._id)
     let cartCount = await productHelper.getTotalAmount(req.session.user._id)
     let user = await productHelper.getUserDetails(req.session.user._id)
+    let address = await userHelper.getUserAddress(req.session.user._id)
     if (cartCount.status) {
       res.redirect('/')
     } else {
-      res.render('user/cod-check-out', { usersi: true, user, total })
+      res.render('user/cod-check-out', { usersi: true, user, total,address})
     }
   },
   placeOrder: async (req, res) => {

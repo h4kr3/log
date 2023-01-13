@@ -7,6 +7,7 @@ const product = require('../controllers/admin/product')
 const user = require('../controllers/admin/user')
 const order = require('../controllers/admin/order')
 const coupon = require('../controllers/admin/coupon')
+const banner = require('../controllers/admin/banner')
 
 //AUTHENTICATION VERIFYING
 function adminloggedin(req, res, next) {
@@ -40,27 +41,27 @@ router.get('/products', adminloggedout, product.getProducts)
 //PRODUCT LIST
 router.get('/product-list/:id', adminloggedout, product.listProduct)
 //DELETE PRODUCT
-router.get('/delete-product/:id', adminloggedout, product.deleteProduct)
+router.delete('/delete-product/:id', adminloggedout, product.deleteProduct)
 //ADD PRODUCT
 router.get('/add-products', adminloggedout, product.addProduct)
 //POST ADD PRODUCT
-router.post('/add-products', upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }, { name: 'image3', maxCount: 1 }, { name: 'image4', maxCount: 1 },]), product.postAdminAddProduct)
+router.post('/add-products',adminloggedout, upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }, { name: 'image3', maxCount: 1 }, { name: 'image4', maxCount: 1 },]), product.postAdminAddProduct)
 //EDIT PRODUCT
 router.get('/edit-product/:id', adminloggedout, product.editProduct)
 //POST EDIT PRODUCT
-router.post('/edit-products/:id', upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }, { name: 'image3', maxCount: 1 }, { name: 'image4', maxCount: 1 },]), product.postAdminEditProduct)
+router.post('/edit-products/:id',adminloggedout, upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }, { name: 'image3', maxCount: 1 }, { name: 'image4', maxCount: 1 },]), product.postAdminEditProduct)
 //CATEGORY
 router.get('/add-category', adminloggedout, product.category)
 //CATEGORY LIST
 router.get('/category', adminloggedout, product.categoryList)
 //ADD CATEGORY
-router.post('/category', upload.fields([{ name: 'image1', maxCount: 1 }]), product.postAdminAddCat)
+router.post('/category',adminloggedout, upload.fields([{ name: 'image1', maxCount: 1 }]), product.postAdminAddCat)
 //EDIT CATEGORY
 router.get('edit-category/:id', adminloggedout, product.getCatEdit)
 //POST EDIT CATEGORY
-router.post('/edit-category/:id', upload.fields([{ name: 'image1', maxCount: 1 }]), product.postAdminEditCat)
+router.post('/edit-category/:id',adminloggedout, upload.fields([{ name: 'image1', maxCount: 1 }]), product.postAdminEditCat)
 //DELETE CATEGORY
-router.get('/delete-category/:id', adminloggedout, product.deleteCat)
+router.delete('/delete-category/:id', adminloggedout, product.deleteCat)
 //VIEW USER
 router.get('/view-user', adminloggedout, user.getAllusers)
 //BLOCK USER
@@ -70,28 +71,30 @@ router.get('/orders', adminloggedout, order.orderLIst)
 //ORDER DETAILS
 router.get('/view-orderAdmin/:id', adminloggedout, order.getOrderProduct)
 //ODER RETURN
-router.get('/return-order-recieved/:id', order.returnOrder)
+router.get('/return-order-recieved/:id',adminloggedout, order.returnOrder)
 //SHIPPED ORDER
-router.get('/shipped-order/:id',order.orderShipped)
+router.get('/shipped-order/:id',adminloggedout,order.orderShipped)
 //DELIVERED ORDER
-router.get('/delivered-order/:id',order.orderDelivered)
+router.get('/delivered-order/:id',adminloggedout,order.orderDelivered)
 //SALES REPORT
 router.get('/sales-repo', adminloggedout, order.getDeliveredReport)
 //COUPON
 router.get('/coupon', adminloggedout, coupon.couponList)
 //ADD CAT OFFER
-router.post('/add-catOffer', coupon.addcatOffer)
+router.post('/add-catOffer',adminloggedout, coupon.addcatOffer)
 //DELETE CAT OFFER
-router.get('/delete-cat-offer/:id', coupon.deleteCatOffer)
+router.delete('/delete-cat-offer/:id',adminloggedout, coupon.deleteCatOffer)
 //ADD PROD OFFER
-router.post('/add-prodOffer',coupon.addProdOffer)
+router.post('/add-prodOffer',adminloggedout,coupon.addProdOffer)
 //DELETE PROD OFFER
-router.get('/delete-prod-offer/:id',coupon.deleteProdOffer)
+router.delete('/delete-prod-offer/:id',adminloggedout,coupon.deleteProdOffer)
 //ADD COUPON
-router.post('/add-coupon',coupon.addCoupon)
+router.post('/add-coupon',adminloggedout,coupon.addCoupon)
 //DELETE COUPON
-router.get('/delete-coupon-offer/:id',coupon.deleteCoupon)
-
+router.delete('/delete-coupon-offer/:id',adminloggedout,coupon.deleteCoupon)
+//BANNER
+router.get('/banner',adminloggedout,banner.getBanner)
+router.post('/addBannerImage',upload.fields([{ name: 'image1', maxCount: 1 }]),banner.addImage)
 
 
 module.exports = router;

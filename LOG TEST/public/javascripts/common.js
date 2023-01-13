@@ -91,7 +91,7 @@ function deleteWish(prodId) {
      
     $.ajax({
       url: '/delete-wishProduct/'+ prodId,
-      method: 'get',
+      method: 'delete',
       success: (response) => {
         if (response) {
          
@@ -104,7 +104,7 @@ function deleteWish(prodId) {
   function deleteProdOffer(proId){
     $.ajax({
         url:'/admin/delete-prod-offer/'+proId,
-        method:'get',
+        method:'delete',
         success:(response)=>{
             if(response.status){ 
                 swal({
@@ -123,7 +123,7 @@ function deleteWish(prodId) {
 function deleteCatOffer(proId){
     $.ajax({
         url:'/admin/delete-cat-offer/'+proId,
-        method:'get',
+        method:'delete',
         success:(response)=>{
             if(response.status){ 
                 swal({
@@ -144,7 +144,7 @@ function deleteCatOffer(proId){
 function deleteCouponCode(proId){
     $.ajax({
         url:'/admin/delete-coupon-offer/'+proId,
-        method:'get',
+        method:'delete',
         success:(response)=>{
             if(response.status){ 
                 swal({
@@ -160,3 +160,100 @@ function deleteCouponCode(proId){
         }
     })
 }
+
+
+$("#addAddress").submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+        url:'/addSecondaryAddress',
+        method:'post',
+        data:$('#addAddress').serialize(),
+        success:((res)=>{
+            if(res){
+               location.href = '/'
+            }
+            else{
+                Swal.fire({
+                    title: 'PASSWORD DO NOT MATCH!!!',
+                    text: 'Please Check Your Password',
+                    icon: 'error',
+                    confirmButtonText: 'back'
+                  })
+
+            }
+        })
+    })
+ })
+
+ $("#addNewAddress").submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+        url:'/addAditionalAddress',
+        method:'post',
+        data:$('#addNewAddress').serialize(),
+        success:(()=>{
+            location.reload()
+        })
+    })
+ })
+
+
+
+ function makeAddressDefault(addressId){
+    $.ajax({
+      url:'/makeAddressDefault/'+addressId,
+      method:'get',
+      success:(response)=>{
+        if(response){
+          location.reload()
+        }
+      }
+    })
+  }
+  
+  function deleteAddress(addressId){
+    $.ajax({
+      url:'/deleteAddress/'+addressId,
+      method:'delete',
+      success:(response)=>{
+        if(response){
+          location.reload()
+        }
+      }
+    })
+  }
+ 
+  function deleteCategory(id) {
+    $.ajax({
+        url:'/admin/delete-category/'+id,
+        method:'delete',
+        success:()=>{
+            location.reload()
+        }
+    })
+  }
+  
+  function deleteProd(id) {
+    $.ajax({
+        url:'/admin/delete-product/'+id,
+        method:'delete',
+        success:()=>{
+            location.reload()
+        }
+    })
+  }
+
+  
+
+//   $("#addBannerImage").submit((e)=>{
+//     e.preventDefault()
+//     $.ajax({
+//         url:'/admin/addBannerImage',
+//         method:'post',
+//         data:$('#addBannerImage').serialize(),
+//         success:(()=>{
+//             location.reload()
+//         })
+//     })
+//  })
+  
