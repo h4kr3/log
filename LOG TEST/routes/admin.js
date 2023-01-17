@@ -95,7 +95,12 @@ router.delete('/delete-coupon-offer/:id',adminloggedout,coupon.deleteCoupon)
 //BANNER
 router.get('/banner',adminloggedout,banner.getBanner)
 router.post('/addBannerImage',upload.fields([{ name: 'image1', maxCount: 1 }]),banner.addImage)
-
+router.post('/setBannerFirst/:id',banner.setBannerFirst)
+router.post('/setBannerSecond/:id',banner.setBannerSecond)
+router.post('/setBannerThird/:id',banner.setBannerThird)
+router.delete('/deleteBanner/:id',banner.deleteBanner)
+//DELETE UPLOADING BANNeR
+router.delete('/deleteBannerU/:id',banner.deleteBannerU)
 
 module.exports = router;
 

@@ -6,10 +6,15 @@ module.exports = {
         res.render('user/order-list', { orders, usersi: true })
     },
     viewOrder: async (req, res) => {
-        let products = await orderHelper.getOrderProduct(req.params.id)
-        let cartCount = await orderHelper.cartCount(req.session.user._id)
-        res.render('user/view-order', { products, usersi: true, cartCount })
-    },
+        try {
+            let products = await orderHelper.getOrderProduct(req.params.id)
+            let cartCount = await orderHelper.cartCount(req.session.user._id)
+            res.render('user/view-order', { products, usersi: true, cartCount })
+        } catch (err) {
+            res.render('404')
+        }
+    }
+    ,
     cancelOrder: (req, res) => {
         let orderId = req.params.id
         orderHelper.cancelOrder(orderId).then((order) => {

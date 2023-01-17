@@ -17,11 +17,26 @@
       <button type="submit" class="btn mt-3"><a href="/product-list/63a52ec8b0da6eac70ecd74d"
           style="text-decoration:none;color:#fff">BUY NOW </a></button>
     </div>
-    <div class="line-bg d-flex justify-content-center">
-      <img src="/images/line1.png" alt="" />
-    </div>
   </div>
 </section>
+
+<div class="container line-bg d-flex justify-content-center mt-5">
+  <img src="/images/line1.png" alt="" />
+</div>
+
+<section>
+  <div class="container text-center mt-5">
+    <div class="mainbg">
+      <img src={{bannerImage.first.bannerImage}} alt="" /><br />
+    </div>
+  </div>
+
+</section>
+
+<div class="container line-bg d-flex justify-content-center mt-5">
+  <img src="/images/line1.png" alt="" />
+</div>
+
 
 <section id="category">
   <div class="container  d-flex justify-content-center mt-5 mainbg-2">
@@ -56,9 +71,9 @@
 </div>
 
 <section>
-  <div class="container text-center">
+  <div class="container text-center mt-5">
     <div class="mainbg">
-      <img src={{bannerImage.bannerImage}} alt="" /><br />
+      <img src={{bannerImage.second.bannerImage}} alt="" /><br />
     </div>
   </div>
 
@@ -67,6 +82,14 @@
 <div class="container line-bg d-flex justify-content-center mt-5">
   <img src="/images/line1.png" alt="" />
 </div>
+<section id="category">
+  <div class="container  d-flex justify-content-center mt-5 mainbg-2">
+    <h4>FEATURED PRODUCTS</h4>
+  </div>
+  <div class="container d-flex justify-content-end">
+            <h4 style="font-weight:800;font-style:italic;margin-right:5px" class="text-light"><button class="btn btn-light" >HIGH TO LOW</button><br><button class="btn btn-light mt-2" >LOW  TO HIGH </button></h4>
+          </div>
+</section>
 
 <section>
 
@@ -79,7 +102,9 @@
           <div class="card-body">
             <h5 class="card-title">{{this.productName}}</h5>
             <h6>{{this.brand}}</h6>
-
+          </div>
+          <div class="d-flex justify-content-end">
+            <h4 style="font-weight:800;font-style:italic;margin-right:5px">&#8377;{{this.offerPrice}}</h4>
           </div>
           <div class="d-flex justify-content-center align-items-end mb-2 " id="view-more">
             <a class="mx-1" href="/product-details/{{this._id}}">SHOW DETAILS</a>
@@ -101,9 +126,9 @@
 </div>
 
 <section>
-  <div class="container text-center">
+  <div class="container text-center mt-5">
     <div class="mainbg">
-      <img src={{bannerImage.bannerImage}} alt="" /><br />
+      <img src={{bannerImage.third.bannerImage}} alt="" /><br />
     </div>
   </div>
 
@@ -112,6 +137,7 @@
 <div class="container line-bg d-flex justify-content-center mt-5">
   <img src="/images/line1.png" alt="" />
 </div>
+
 <div style="height:300px;"></div>
 
 

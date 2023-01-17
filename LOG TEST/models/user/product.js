@@ -47,19 +47,38 @@ module.exports = {
             resolve(category)
         })
     },
+    // getProductDetails: (productId) => {
+    //     return new Promise((resolve, reject) => {
+    //         if (ObjectId.isValid(productId)) {
+    //             console.log('hioiii');
+    //         }else{
+    //             console.log('hello');
+    //         }
+    //         db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) }).then((product) => {
+    //             resolve(product)
+    //         })
+    //     })
+    // },
     getProductDetails: (productId) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) }).then((product) => {
-                resolve(product)
-            })
-        })
+            if (ObjectId.isValid(productId)){
+                db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) })
+                    .then((product) => {
+                        resolve(product)
+                    })
+                    .catch((err) => {
+                        reject(err)
+                    });
+            }else{
+                reject(new Error("productId is not a valid ObjectId"));
+            }
+        });
     },
     addToCart: (prodId, userId) => {
         let proObj = {
             item: ObjectId(prodId),
             quantity: 1,
         };
-
         return new Promise(async (resolve, reject) => {
             let userCart = await db
                 .get()
@@ -362,7 +381,7 @@ module.exports = {
                     .collection(collection.WISH_COLLECTION)
                     .insertOne(cartObj)
                     .then((response) => {
-                        resolve(res);
+                        resolve(response);
                     });
             }
         });

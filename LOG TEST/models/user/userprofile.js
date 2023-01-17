@@ -3,6 +3,7 @@ var collection = require('../../config/collection')
 const { ObjectId, Db } = require("mongodb");
 const { ObjectID } = require("bson");
 const { response } = require('express');
+var bcrypt = require('bcrypt')
 
 module.exports = {
     getUserDetails: (userId) => {

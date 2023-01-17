@@ -16,10 +16,17 @@ upload = multer({
 })
 
 module.exports = {
-    getBanner:(req,res)=>{
-        res.render('admin/banner')
+    getBanner: async (req, res) => {
+        try {
+            let bannerData = await bannerHelper.getImageBanner()
+            let userBanner = await bannerHelper.userBanner()
+            res.render('admin/banner',{ bannerData,userBanner})
+        } catch (err) {
+            console.log(err);
+            res.status(404).render('404')
+        }
     },
-    addImage:async (req, res) => {
+    addImage: async (req, res) => {
         const cloudinaryImageUploadMethod = (file) => {
             return new Promise((resolve) => {
                 cloudinary.uploader.upload(file, (err, res) => {
@@ -40,12 +47,59 @@ module.exports = {
         )
         bannerHelper.addImage(req.body, urls).then((id) => {
             if (id) {
-               res.redirect('/admin/banner')
+                res.redirect('/admin/banner')
             }
             else {
-                res.render({invalid:'image not uploaded'})
+                res.render({ invalid: 'image not uploaded' })
             }
         })
 
+    },
+    setBannerFirst: (req, res) => {
+        try {
+            bannerHelper.setBannerFirst(req.params.id).then((response) => {
+                res.json({})
+            })
+        } catch {
+            res.status(404).render('404')
+        }
+
+    },
+    setBannerSecond: (req, res) => {
+        try {
+            bannerHelper.setBannerSecond(req.params.id).then((response) => {
+                res.json({})
+            })
+        } catch {
+            res.status(404).render('404')
+        }
+    },
+    setBannerThird: (req, res) => {
+        try {
+            bannerHelper.setBannerThird(req.params.id).then((response) => {
+                res.json({})
+            })
+        } catch {
+            res.status(404).render('404')
+        }
+    },
+    deleteBanner:(req,res)=>{
+        try{
+            bannerHelper.deleteBanner(req.params.id).then(()=>{
+                res.json({})
+            })
+        }catch{
+            res.status(404).render('404')
+        }
+    },
+    deleteBannerU:(req,res)=>{
+        try{
+            bannerHelper.deleteBannerU(req.params.id).then(()=>{
+                res.json({})
+            })
+        }catch{
+            res.status(404).render('404')
+        }
     }
+    
 }

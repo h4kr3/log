@@ -13,15 +13,22 @@ module.exports = {
       }
     });
   },
-  productDetails: async (req, res) => {
-    let product = await productHelper.getProductDetails(req.params.id);
-    if (req.session.userLoggedIn) {
-      let cartCount = await productHelper.cartCount(req.session.user._id)
-      res.render("user/product-details", { usersi: true, product, cartCount });
-    } else {
-      res.render("user/product-details", { product });
+  productDetails: async (req, res,next) => {
+    try {
+      let product = await productHelper.getProductDetails(req.params.id);
+      if (req.session.userLoggedIn) {
+        let cartCount = await productHelper.cartCount(req.session.user._id)
+        res.render("user/product-details", { usersi: true, product, cartCount });
+      } else {
+        res.render("user/product-details", { product });
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(404).render('404')
     }
-  },
+  }
+  
+  ,
   addToCart: (req, res) => {
     productHelper.addToCart(req.params.id, req.session.user._id).then(() => {
       res.json({ status: true })

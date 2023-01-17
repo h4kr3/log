@@ -14,11 +14,13 @@
                     <div class="card-body">
                         <h5 class="card-title">{{this.productName}}</h5>
                         <h6>{{this.brand}}</h6>
-
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <h4 style="font-weight:800;font-style:italic;margin-right:5px">&#8377;{{this.offerPrice}}</h4>
                     </div>
                     <div class="d-flex justify-content-center align-items-end mb-2 " id="view-more">
                         <a class="mx-1" href="/product-details/{{this._id}}">SHOW DETAILS</a>
-                        <button onclick="addToCart('{{this._id}}') "class="btn addtocart">ADD TO CART</button>
+                        <button onclick="addToCart('{{this._id}}') " class="btn addtocart">ADD TO CART</button>
                     </div>
                 </div>
             </div>

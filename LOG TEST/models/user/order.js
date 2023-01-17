@@ -27,40 +27,46 @@ module.exports = {
     },
     getOrderProduct: (orderId) => {
         return new Promise(async (resolve, reject) => {
-            let cartItem = await db
-                .get()
-                .collection(collection.ORDER_COLLLECTION)
-                .aggregate([
-                    {
-                        $match: { _id: ObjectId(orderId) },
-                    },
-                    {
-                        $unwind: '$products'
-                    },
-                    {
-                        $project:
+            try {
+                let cartItem = await db
+                    .get()
+                    .collection(collection.ORDER_COLLLECTION)
+                    .aggregate([
                         {
-                            item: '$products.item',
-                            quantity: '$products.quantity'
+                            $match: { _id: ObjectId(orderId) },
+                        },
+                        {
+                            $unwind: '$products'
+                        },
+                        {
+                            $project:
+                            {
+                                item: '$products.item',
+                                quantity: '$products.quantity'
+                            }
+                        },
+                        {
+                            $lookup: {
+                                from: collection.PRODUCT_COLLECTION,
+                                localField: 'item',
+                                foreignField: '_id',
+                                as: 'products'
+                            }
+                        },
+                        {
+                            $project: {
+                                item: 1, quantity: 1, product: { $arrayElemAt: ['$products', 0] }
+                            }
                         }
-                    },
-                    {
-                        $lookup: {
-                            from: collection.PRODUCT_COLLECTION,
-                            localField: 'item',
-                            foreignField: '_id',
-                            as: 'products'
-                        }
-                    },
-                    {
-                        $project: {
-                            item: 1, quantity: 1, product: { $arrayElemAt: ['$products', 0] }
-                        }
-                    }
 
-                ])
-                .toArray();
-            resolve(cartItem);
+                    ])
+                    .toArray();
+                resolve(cartItem);
+            }catch (err){
+                console.log(err);
+                reject(err)
+            }
+            
         });
     },
     cancelOrder: (orderId) => {
@@ -84,6 +90,6 @@ module.exports = {
             })
         })
     },
-    
+
 
 }

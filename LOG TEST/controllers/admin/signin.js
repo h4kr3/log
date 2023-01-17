@@ -23,9 +23,7 @@ module.exports = {
         if (req.session.adminLoggedIn) {
             let totalAmount = await dashBoard.getTotalAmount()
             let data = await dashBoard.dashBoard()
-            let bannerData = banner.getImageBanner()
-            console.log(bannerData);
-            res.render('admin/admin-land', { admin: true, totalAmount, data,bannerData})
+            res.render('admin/admin-land', { admin: true, totalAmount, data})
         }
     }
 }
