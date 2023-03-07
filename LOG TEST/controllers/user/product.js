@@ -1,5 +1,6 @@
 const productHelper = require('../../models/user/product')
 const userHelper = require('../../models/user/userprofile')
+const orderhelper = require('../../models/user/order')
 
 module.exports = {
   productList: async (req, res) => {
@@ -77,7 +78,8 @@ module.exports = {
   },
   placeOrder: async (req, res) => {
     let products = await productHelper.getCartProductList(req.body.userId)
-    productHelper.placeOrder(req.body, products).then((response) => {
+    let wallet = await userHelper.getUserDetails(req.body.userId)
+    productHelper.placeOrder(req.body,products,wallet).then((response) => {
       if (req.body['paymentMethod'] == 'cod') {
         res.json({ cod: true })
       }
@@ -85,6 +87,14 @@ module.exports = {
         productHelper.generateRazorpay(response.insertedId, req.body.total).then((response) => {
           res.json({ response })
         })
+      }
+      else if(req.body['paymentMethod'] == 'noBal'){
+        orderhelper.deleteOrder().then(()=>{
+          res.json({noBal:true})
+        })
+      }
+      else if(req.body['paymentMethod'] == 'wallet'){
+        res.json({ cod: true })
       }
       else {
         res.json({ error: true })

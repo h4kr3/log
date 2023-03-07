@@ -123,6 +123,16 @@ module.exports = {
                 resolve()
              })
         })
+    },
+    walletPurchase:(total,id)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.USER_COLLECTION).updateOne(
+                {'_id':ObjectID(id)},
+                {'$set':{'wallet':total}}
+            ).then(()=>{
+                resolve()
+            })
+        })
     }
     
 }

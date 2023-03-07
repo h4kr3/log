@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser')
 var logger = require('morgan');
 var hbs = require('express-handlebars');
+var env = require('dotenv').config()
 
 // var fileUpload = require('express-fileupload')
 var db = require('./config/connection')

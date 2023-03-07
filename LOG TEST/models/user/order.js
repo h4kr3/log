@@ -3,6 +3,7 @@ var db = require('../../config/connection')
 var collection = require('../../config/collection')
 const { ObjectId, Db } = require("mongodb");
 const { ObjectID } = require("bson");
+const { response } = require('express');
 
 module.exports = {
     getUserOrders: (userId) => {
@@ -90,6 +91,20 @@ module.exports = {
             })
         })
     },
+    deleteOrder: () =>{
+        return new Promise ((resolve,reject)=>{
+            db.get().collection(collection.ORDER_COLLLECTION).deleteMany({'paymentMethod': {$in: [null, 'noBal']}}).then(()=>{
+                resolve()
+            })
+        })
+    },
+    getUserOrder: (id) =>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.ORDER_COLLLECTION).findOne({'_id':ObjectID(id)}).then((response)=>{
+                resolve(response)
+            })
+        })
+    }
 
 
 }

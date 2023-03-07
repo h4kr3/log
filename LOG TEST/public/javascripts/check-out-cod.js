@@ -20,6 +20,13 @@ $("#checkout-form").submit((e)=>{
                     type: 'error'
                   })
             }
+            else if(res.noBal){
+                swal({
+                    title: 'WALLET BALANCE INSUFFICIANT',
+                    text:'please select another method',
+                    type: 'error'
+                  })
+            }
             else{
                 razorpayPayment(res.response)
             }

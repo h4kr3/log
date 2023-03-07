@@ -5,8 +5,8 @@ const { ObjectId, Db } = require("mongodb");
 const { ObjectID } = require("bson");
 const Razorpay = require('razorpay');
 var instance = new Razorpay({
-    key_id: 'rzp_test_2LtbQ9U70xjQCK',
-    key_secret: 'uhukdgU5WC3p7HAxDCHwQ69N'
+    key_id:process.env.RAZORPAY_KEYID,
+    key_secret: process.env.RAZORPAY_KEYSECRET
 })
 
 module.exports = {
@@ -84,6 +84,7 @@ module.exports = {
                 .get()
                 .collection(collection.CART_COLLECTION)
                 .findOne({ user: ObjectId(userId) });
+
             if (userCart) {
                 let proExist = userCart.products.findIndex((product) => product.item == prodId)
 
@@ -258,10 +259,31 @@ module.exports = {
             resolve(cart)
         })
     },
-    placeOrder: (order, product, total) => {
+    placeOrder: (order, product,wallet) => {
         return new Promise((resolve, reject) => {
-
-            let status = order.paymentMethod === 'cod' ? 'placed' : 'pending'
+            let status = 'null'
+            if(order.paymentMethod==='cod'){
+                status = 'placed'
+            }
+            else if(order.paymentMethod==='wallet'){
+                if(wallet.wallet >=order.total){
+                    let total = wallet.wallet - order.total
+                    status = 'placed'
+                    db.get().collection(collection.USER_COLLECTION).updateOne(
+                        {'_id':ObjectID(order.userId)},
+                        {'$set':{'wallet':total}}
+                    ).then(()=>{
+                        resolve()
+                    })
+                  }else{
+                    order.paymentMethod = 'noBal'
+                  }
+                
+            }else if(order.paymentMethod==='wallet'){
+                status = 'pending'
+            }else{
+                order.paymentMethod = null
+            }
             let oderObj = {
                 deliveryDetails: {
                     name: order.name,
@@ -281,6 +303,12 @@ module.exports = {
 
             }
             if (oderObj.paymentMethod === 'cod') {
+                db.get().collection(collection.ORDER_COLLLECTION).insertOne(oderObj).then((response) => {
+                    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(order.userId) })
+                    resolve(response)
+                })
+            }
+            else if(oderObj.paymentMethod === 'wallet'){
                 db.get().collection(collection.ORDER_COLLLECTION).insertOne(oderObj).then((response) => {
                     db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(order.userId) })
                     resolve(response)
